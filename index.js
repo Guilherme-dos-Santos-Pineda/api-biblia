@@ -52,22 +52,3 @@ dado.addEventListener("click", (e)=>{
         console.log(cons)
     })
 })
-
-var name = 'aaa'
-var email = 'aaaaa@gmail.com'
-var notifications = true
-var password = "1233456"
-var a = fetch("https://www.abibliadigital.com.br/api/users").then(res =>{
-    return res.json()
-}).then(json =>{
-    let postElements = '';
-
-    let posts = JSON.parse(json);
-    posts.forEach(post => {
-        let postElement = `
-        
-        ${name}, ${email}, ${notifications}, ${password}
-        
-        `
-    });
-})

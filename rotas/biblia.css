@@ -1,0 +1,31 @@
+.container{
+
+}
+#tituloBiblia{
+
+}
+#capituloEVersiculo{
+
+}
+.textoBiblia{
+
+}
+.aparecerCap{
+    display: none;
+    width: 5rem;
+    height: auto;
+    padding: 20px;
+}
+#centered-element {
+    position: fixed;
+    top: 75%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    transition: opacity 0.3s;
+    /* Estilos para o elemento centralizado */
+  }
+  
+  .hidden {
+    opacity: 0;
+  }
+  
