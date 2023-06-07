@@ -59,7 +59,6 @@ function pegarDados(){
 
 mudarCor.addEventListener("click", ()=>{
     corpo.classList.toggle("bg-black")
-
 })
 
 
