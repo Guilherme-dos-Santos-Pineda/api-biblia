@@ -1,5 +1,7 @@
 var tituloBiblia = document.querySelector("#tituloBiblia")
 var capituloEVersiculo = document.querySelector("#capituloEVersiculo")
+var mudarCor = document.querySelector("#mudarCor")
+var corpo = document.querySelector(".corpo")
 var a = document.querySelector("#a")
 var textoBiblia = document.querySelector(".textoBiblia")
 var avançar = document.querySelector(".avançar")
@@ -10,24 +12,36 @@ var capitulo ;
 var capitnumeroDeCapitulosulo = null
 let url = 'https://www.abibliadigital.com.br/api/verses/nvi/'
 var version = "nvi/"
-var abreviatura = []
+var abreviatura
 var cap
-var capAtual 
+var capAtual
+var numero
 
 avançar.addEventListener("click", ()=>{
-    cap++
+    console.log(aa)
+    
+    numero++
     pegarDados()
+   
 })
 voltar.addEventListener("click", ()=>{
-    cap--
+    console.log(aa)
+    
+    numero--
     pegarDados()
+ 
 })
 
 
 function pegarDados(){
-    var url = 'https://www.abibliadigital.com.br/api/verses/nvi/sl/' + cap;
+    var url = `https://www.abibliadigital.com.br/api/verses/nvi/${aa}/` + numero;
 
-    fetch(url)
+    fetch(url, {
+        method: 'GET', // ou qualquer outro método HTTP que você esteja utilizando
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IkZyaSBKdW4gMDIgMjAyMyAwMToxODo0NiBHTVQrMDAwMC42NDc5NDIyN2IxMDc3NTAwMjAwMGQ3OTciLCJpYXQiOjE2ODU2Njg3MjZ9.8PsAyR7ONlfnaGzK5mJ3Zm54OcEe0Al7VDKL4TZnNAY'
+        }})
     .then(function(res){
         return res.json()
     })
@@ -37,16 +51,28 @@ function pegarDados(){
         textoBiblia.innerText = ""
         cons.verses.forEach(element => {
             
-            textoBiblia.innerText = textoBiblia.innerText + `${element.number} ${element.text}`
+            textoBiblia.innerHTML = textoBiblia.innerHTML + "<p>" + element.number + " " + element.text + "</p>"
          });
 
     })
 }
 
+mudarCor.addEventListener("click", ()=>{
+    corpo.classList.toggle("bg-black")
+
+})
+
+
+
 function aparecerLivros(){
     var url = 'https://www.abibliadigital.com.br/api/books';
 
-    fetch(url)
+    fetch(url, {
+        method: 'GET', // ou qualquer outro método HTTP que você esteja utilizando
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IkZyaSBKdW4gMDIgMjAyMyAwMToxODo0NiBHTVQrMDAwMC42NDc5NDIyN2IxMDc3NTAwMjAwMGQ3OTciLCJpYXQiOjE2ODU2Njg3MjZ9.8PsAyR7ONlfnaGzK5mJ3Zm54OcEe0Al7VDKL4TZnNAY'
+        }})
     .then(function(res){
         return res.json()
     })
@@ -80,7 +106,12 @@ function aparecerLivros(){
 }
 
 function aparecerCapitulos(urlNova, abrev, capitulos){
-    fetch(urlNova)
+    fetch(urlNova, {
+        method: 'GET', // ou qualquer outro método HTTP que você esteja utilizando
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IkZyaSBKdW4gMDIgMjAyMyAwMToxODo0NiBHTVQrMDAwMC42NDc5NDIyN2IxMDc3NTAwMjAwMGQ3OTciLCJpYXQiOjE2ODU2Njg3MjZ9.8PsAyR7ONlfnaGzK5mJ3Zm54OcEe0Al7VDKL4TZnNAY'
+        }})
     .then(function(res) {
       return res.json();
     })
@@ -121,12 +152,9 @@ function aparecerCapitulos(urlNova, abrev, capitulos){
 }
 capituloEVersiculo.addEventListener("click", ()=>{
 
-        // fetch(`https://www.abibliadigital.com.br/api/verses/nvi/${aa}/${cap}`)
-        // .then(function(res) {
-        //   res.json()
-        // }).then(function(res) {
-        //     console.log(res)
-        // })
+
+
+
         a.innerHTML = ""
         for(let i = 1; i<= cap; i++){
             a.innerHTML = a.innerHTML + `
@@ -137,24 +165,50 @@ capituloEVersiculo.addEventListener("click", ()=>{
             
         }
         console.log(aa, cap)
+
     }
     
 )
 
 
+
 function receberDados(url, abrev, i){
-    fetch(url)
+    fetch(url, {
+        method: 'GET', // ou qualquer outro método HTTP que você esteja utilizando
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IkZyaSBKdW4gMDIgMjAyMyAwMToxODo0NiBHTVQrMDAwMC42NDc5NDIyN2IxMDc3NTAwMjAwMGQ3OTciLCJpYXQiOjE2ODU2Njg3MjZ9.8PsAyR7ONlfnaGzK5mJ3Zm54OcEe0Al7VDKL4TZnNAY'
+        }})
     .then(function(res) {
       return res.json();
     })
     .then(function(res) {
+
+
+
+
+        
+        let regex = /\/(\d+)$/; 
+        let match = url.match(regex); // Executa a correspondência usando a expressão regular
+
+        if (match) {
+        numero = parseInt(match[1]); // Converte o valor correspondente para um número inteiro
+        console.log(numero); // Exibe o número encontrado
+        } else {
+        console.log('Número não encontrado na URL');
+        }
+               
+
+
+
+
 
     numeroDeCapitulos = i
     capitulo = i
     let versos = res.verses
         urlNova = url
         
-// A UrlNova É O LIVRO CAP 1 COM OS VERSICULOS, DEPOIS BASTA RETIRAR A FUNÇÃO APARECER CAP DAQUI
+            // A UrlNova É O LIVRO CAP 1 COM OS VERSICULOS, DEPOIS BASTA RETIRAR A FUNÇÃO APARECER CAP DAQUI
         aparecerCapitulos('https://www.abibliadigital.com.br/api/books', abrev, i)
         
         textoBiblia.innerHTML = ""
