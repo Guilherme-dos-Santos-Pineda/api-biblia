@@ -1,14 +1,7 @@
-.container{
-
-}
-#tituloBiblia{
-
-}
-#capituloEVersiculo{
-
-}
-.textoBiblia{
-
+.pintado{
+    background-color:salmon;
+    color:lightyellow; 
+    border-radius:5px
 }
 .aparecerCap{
     display: none;

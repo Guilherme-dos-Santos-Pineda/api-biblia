@@ -8,6 +8,7 @@ var avançar = document.querySelector(".avançar")
 var voltar = document.querySelector(".voltar")
 var aparecerCap = document.querySelector(".aparecerCap")
 var livros = document.querySelector(".livros")
+var paragrafos = document.getElementsByTagName("p")
 var capitulo ;
 var capitnumeroDeCapitulosulo = null
 let url = 'https://www.abibliadigital.com.br/api/verses/nvi/'
@@ -16,6 +17,14 @@ var abreviatura
 var cap
 var capAtual
 var numero
+
+function pintarLetra(element, numeroDoVersiculo){
+    
+    // let salvar = localStorage.setItem("versiculoPintado", numeroDoVersiculo)
+     element.classList.toggle("pintado")
+
+    
+}
 
 avançar.addEventListener("click", ()=>{
     console.log(aa)
@@ -58,7 +67,8 @@ function pegarDados(){
 }
 
 mudarCor.addEventListener("click", ()=>{
-    corpo.classList.toggle("bg-black")
+    // corpo.classList.toggle("bg-black")
+    corpo.classList.toggle("text-bg-dark")
 })
 
 
@@ -221,8 +231,13 @@ function receberDados(url, abrev, i){
         versos.forEach((element)=>{
 
             // console.log(element.number, element.text, url)
+            let i = element.number
+            textoBiblia.innerHTML = textoBiblia.innerHTML + "<p onclick='pintarLetra(this)'>" + element.number + " " + element.text + "</p>"
+            console.log(i)
+
             
-            textoBiblia.innerHTML = textoBiblia.innerHTML + "<p>" + element.number + " " + element.text + "</p>"
+            
+          
             
         })
        
@@ -237,7 +252,7 @@ function centerElement() {
     var windowHeight = window.innerHeight;
     var elementHeight = element.offsetHeight;
   
-    var topOffset = Math.max((windowHeight - elementHeight) * 0.90, 0);
+    var topOffset = Math.max((windowHeight - elementHeight) * 0.80, 0);
     element.style.top = topOffset + 'px';
   }
   
