@@ -9,6 +9,8 @@ var voltar = document.querySelector(".voltar")
 var aparecerCap = document.querySelector(".aparecerCap")
 var livros = document.querySelector(".livros")
 var paragrafos = document.getElementsByTagName("p")
+var versaoBotao = document.querySelector(".versaoBotao")
+var topo = document.querySelector(".corpo")
 var capitulo ;
 var capitnumeroDeCapitulosulo = null
 let url = 'https://www.abibliadigital.com.br/api/verses/nvi/'
@@ -17,6 +19,35 @@ var abreviatura
 var cap
 var capAtual
 var numero
+var versaoNVI = 'nvi';
+var versaoRA = 'ra';
+var versaoACF = 'acf';
+var versaoKJV = 'kjv';
+var versaoAtual = 'nvi'
+
+
+
+function ara(){
+    versaoAtual = versaoRA
+    versaoBotao.innerText = "ARA"
+    pegarDados()
+}
+function ntlh(){
+    versaoAtual = versaoNVI
+    versaoBotao.innerText = "NTLH"
+    pegarDados()
+}
+function acf(){
+    versaoAtual = versaoACF
+    versaoBotao.innerText = "ACF"
+    pegarDados()
+}
+function kjv(){
+    versaoAtual = versaoKJV
+    versaoBotao.innerText = "KJV"
+    pegarDados()
+}
+
 
 function pintarLetra(element, numeroDoVersiculo){
     
@@ -26,11 +57,18 @@ function pintarLetra(element, numeroDoVersiculo){
     
 }
 
+function scrollParaCima() {
+
+    // Faz a rolagem suave para o elemento selecionado
+    topo.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
 avançar.addEventListener("click", ()=>{
     console.log(aa)
     
     numero++
     pegarDados()
+    scrollParaCima()
    
 })
 voltar.addEventListener("click", ()=>{
@@ -38,12 +76,13 @@ voltar.addEventListener("click", ()=>{
     
     numero--
     pegarDados()
+    scrollParaCima()
  
 })
 
 
 function pegarDados(){
-    var url = `https://www.abibliadigital.com.br/api/verses/nvi/${aa}/` + numero;
+    var url = `https://www.abibliadigital.com.br/api/verses/${versaoAtual}/${aa}/` + numero;
 
     fetch(url, {
         method: 'GET', // ou qualquer outro método HTTP que você esteja utilizando
@@ -62,7 +101,7 @@ function pegarDados(){
             
             textoBiblia.innerHTML = textoBiblia.innerHTML + "<p>" + element.number + " " + element.text + "</p>"
          });
-
+         scrollParaCima()
     })
 }
 
@@ -93,11 +132,11 @@ function aparecerLivros(){
         livros.innerHTML = ""
         cons.forEach(element => {
             // console.log(element.name)
-            url = 'https://www.abibliadigital.com.br/api/verses/nvi/'
+            url = `https://www.abibliadigital.com.br/api/verses/${versaoAtual}/`
             
             abreviatura = element.abbrev.pt
             numeroDeCapitulos = element.chapters
-            url = 'https://www.abibliadigital.com.br/api/verses/nvi/' + abreviatura + '/' + 1               
+            url = `https://www.abibliadigital.com.br/api/verses/${versaoAtual}/` + abreviatura + '/' + 1               
             // console.log(url)
             
             livros.innerHTML = livros.innerHTML +
@@ -109,7 +148,7 @@ function aparecerLivros(){
                 // console.log(abreviatura)
 
         });
-            
+        scrollParaCima()  
     }) 
 
 }
@@ -150,7 +189,7 @@ function aparecerCapitulos(urlNova, abrev, capitulos){
         a.innerHTML = ""
         for(let i = 1; i<= capitulos; i++){
             a.innerHTML = a.innerHTML + `
-                <div onclick="receberDados('https://www.abibliadigital.com.br/api/verses/nvi/${abreviatura}/${i}')" class="col m-1 col-xs-6 btn btn-primary rounded-start-2" data-bs-dismiss="modal">${i}</div>
+                <div onclick="receberDados('https://www.abibliadigital.com.br/api/verses/${versaoAtual}/${abreviatura}/${i}')" class="col m-1 col-xs-6 btn btn-primary rounded-start-2" data-bs-dismiss="modal">${i}</div>
             
             `
             aa = abreviatura
@@ -167,13 +206,14 @@ capituloEVersiculo.addEventListener("click", ()=>{
         a.innerHTML = ""
         for(let i = 1; i<= cap; i++){
             a.innerHTML = a.innerHTML + `
-                <div onclick="receberDados('https://www.abibliadigital.com.br/api/verses/nvi/${aa}/${i}')" class="col m-1 col-xs-6 btn btn-primary rounded-start-2" data-bs-dismiss="modal">${i}</div>
+                <div onclick="receberDados('https://www.abibliadigital.com.br/api/verses/${versaoAtual}/${aa}/${i}')" class="col m-1 col-xs-6 btn btn-primary rounded-start-2" data-bs-dismiss="modal">${i}</div>
             
             `
             capAtual = i
             
         }
         console.log(aa, cap)
+        scrollParaCima()
 
     }
     
@@ -240,6 +280,7 @@ function receberDados(url, abrev, i){
           
             
         })
+        scrollParaCima()
        
     });
 }
