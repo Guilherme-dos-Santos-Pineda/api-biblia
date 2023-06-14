@@ -49,7 +49,7 @@ function kjv(){
 }
 
 
-function pintarLetra(element, numeroDoVersiculo){
+function pintarLetra(element){
     
     // let salvar = localStorage.setItem("versiculoPintado", numeroDoVersiculo)
      element.classList.toggle("pintado")
@@ -106,7 +106,7 @@ function pegarDados(){
 }
 
 mudarCor.addEventListener("click", ()=>{
-    // corpo.classList.toggle("bg-black")
+    //corpo.classList.toggle("bg-black")
     corpo.classList.toggle("text-bg-dark")
 })
 
@@ -272,7 +272,7 @@ function receberDados(url, abrev, i){
 
             // console.log(element.number, element.text, url)
             let i = element.number
-            textoBiblia.innerHTML = textoBiblia.innerHTML + "<p onclick='pintarLetra(this)'>" + element.number + " " + element.text + "</p>"
+            textoBiblia.innerHTML = textoBiblia.innerHTML + "<p onclick='pintarLetra(this)' style='cursor: pointer;'>" + element.number + " " + element.text + "</p>"
             console.log(i)
 
             
