@@ -99,7 +99,7 @@ function pegarDados(){
         textoBiblia.innerText = ""
         cons.verses.forEach(element => {
             
-            textoBiblia.innerHTML = textoBiblia.innerHTML + "<p>" + element.number + " " + element.text + "</p>"
+            textoBiblia.innerHTML = textoBiblia.innerHTML + "<p onclick='pintarLetra(this)'>" + element.number + " " + element.text + "</p>"
          });
          scrollParaCima()
     })
@@ -107,7 +107,7 @@ function pegarDados(){
 
 mudarCor.addEventListener("click", ()=>{
     //corpo.classList.toggle("bg-black")
-    corpo.classList.toggle("text-bg-dark")
+    corpo.classList.toggle("text-bg-dark") // muda cor da tela interira
 })
 
 
