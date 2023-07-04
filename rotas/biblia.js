@@ -8,9 +8,11 @@ var avançar = document.querySelector(".avançar")
 var voltar = document.querySelector(".voltar")
 var aparecerCap = document.querySelector(".aparecerCap")
 var livros = document.querySelector(".livros")
+var infoLivro = document.querySelector(".infoLivro")
 var paragrafos = document.getElementsByTagName("p")
 var versaoBotao = document.querySelector(".versaoBotao")
 var topo = document.querySelector(".corpo")
+var info = document.getElementById("info");
 var capitulo ;
 var capitnumeroDeCapitulosulo = null
 let url = 'https://www.abibliadigital.com.br/api/verses/nvi/'
@@ -318,3 +320,54 @@ function handleScroll() {
 }
 
 window.addEventListener('scroll', handleScroll);
+
+
+
+
+info.addEventListener("click",(e)=>{
+    
+        var infoLivros = `https://www.abibliadigital.com.br/api/books/${aa}`;
+    
+        fetch(infoLivros, {
+            method: 'GET', // ou qualquer outro método HTTP que você esteja utilizando
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IkZyaSBKdW4gMDIgMjAyMyAwMToxODo0NiBHTVQrMDAwMC42NDc5NDIyN2IxMDc3NTAwMjAwMGQ3OTciLCJpYXQiOjE2ODU2Njg3MjZ9.8PsAyR7ONlfnaGzK5mJ3Zm54OcEe0Al7VDKL4TZnNAY'
+            }})
+        .then(function(res){
+            return res.json()
+        })
+        .then(function(cons){
+    
+            // console.log(cons)
+            // abreviatura = null
+            
+            infoLivro.innerHTML = ""
+            // cons.forEach(element => {
+            //     // console.log(element.name)
+            //     // url = `https://www.abibliadigital.com.br/api/verses/${versaoAtual}/`
+                
+            //     // abreviatura = element.abbrev.pt
+            //     // numeroDeCapitulos = element.chapters
+            //     // url = `https://www.abibliadigital.com.br/api/verses/${versaoAtual}/` + abreviatura + '/' + 1               
+            //     // console.log(url)
+                
+                 infoLivro.innerHTML = infoLivro.innerHTML +
+                     `
+                         <h6> Abreviatura: ${cons.abbrev.pt}</h6>
+                         <h6>Possível Autor: ${cons.author}</h6>
+                         <h6>Capitulos: ${cons.chapters}</h6>
+                         <h5 class="my-2">Comentario: ${cons.comment}</h5>
+                         <h6>Grupo de Livro: ${cons.group}</h6>
+                         <h6>Nome: ${cons.name}</h6>
+                         <h6>Testamento: ${cons.testament}</h6>
+                     `
+                    
+                   
+    
+            // });
+            console.log(cons)
+        }) 
+    
+    
+})
