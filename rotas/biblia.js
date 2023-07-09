@@ -1,3 +1,5 @@
+
+
 var tituloBiblia = document.querySelector("#tituloBiblia")
 var capituloEVersiculo = document.querySelector("#capituloEVersiculo")
 var mudarCor = document.querySelector("#mudarCor")
@@ -11,7 +13,9 @@ var livros = document.querySelector(".livros")
 var infoLivro = document.querySelector(".infoLivro")
 var paragrafos = document.getElementsByTagName("p")
 var versaoBotao = document.querySelector(".versaoBotao")
+var apagar = document.querySelector(".apagar")
 var topo = document.querySelector(".corpo")
+var opcoes = document.querySelector(".opcoes")
 var info = document.getElementById("info");
 var capitulo ;
 var capitnumeroDeCapitulosulo = null
@@ -66,6 +70,7 @@ function scrollParaCima() {
   }
 
 avançar.addEventListener("click", ()=>{
+    
     console.log(aa)
     
     numero++
@@ -84,6 +89,7 @@ voltar.addEventListener("click", ()=>{
 
 
 function pegarDados(){
+
     var url = `https://www.abibliadigital.com.br/api/verses/${versaoAtual}/${aa}/` + numero;
 
     fetch(url, {
@@ -110,11 +116,24 @@ function pegarDados(){
 mudarCor.addEventListener("click", ()=>{
     //corpo.classList.toggle("bg-black")
     corpo.classList.toggle("text-bg-dark") // muda cor da tela interira
+    opcoes.classList.toggle("text-bg-dark") // muda cor da tela interira
 })
 
 
 
 function aparecerLivros(){
+    let verificado = 0
+    let listaDosLivros = livros.getElementsByTagName('li');
+    if(!listaDosLivros.length > 0){
+        tituloBiblia.disabled = true;
+        tituloBiblia.innerHTML = `
+          <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+          <span class="visually-hidden">Carregando...</span>
+            `;
+        verificado = 1
+    } 
+
+
     var url = 'https://www.abibliadigital.com.br/api/books';
 
     fetch(url, {
@@ -151,6 +170,14 @@ function aparecerLivros(){
 
         });
         scrollParaCima()  
+        tituloBiblia.disabled = false;
+        if(verificado == 1){
+            tituloBiblia.innerHTML = `Livro`
+            verificado = 0
+        }
+
+        
+
     }) 
 
 }
@@ -354,12 +381,12 @@ info.addEventListener("click",(e)=>{
                 
                  infoLivro.innerHTML = infoLivro.innerHTML +
                      `
-                         <h6> Abreviatura: ${cons.abbrev.pt}</h6>
+                         <h6>Nome: ${cons.name}</h6>                         
                          <h6>Possível Autor: ${cons.author}</h6>
                          <h6>Capitulos: ${cons.chapters}</h6>
                          <h5 class="my-2">Comentario: ${cons.comment}</h5>
                          <h6>Grupo de Livro: ${cons.group}</h6>
-                         <h6>Nome: ${cons.name}</h6>
+                         <h6>Abreviatura: ${cons.abbrev.pt}</h6>
                          <h6>Testamento: ${cons.testament}</h6>
                      `
                     
@@ -371,3 +398,77 @@ info.addEventListener("click",(e)=>{
     
     
 })
+
+var formularioApagar = document.querySelector(".formularioApagar")
+var formularioFecharBotao = document.querySelector(".formularioFechar")
+
+
+formularioFecharBotao.addEventListener("click", ()=>{
+    formularioApagar.classList.remove("show");
+    formularioApagar.style.display = "none"
+})
+function fecharForm(){
+    formularioApagar.classList.remove("show");
+    formularioApagar.style.display = "none"
+}
+
+apagar.addEventListener("click", (e)=>{
+
+    formularioApagar.classList.add("show");
+    formularioApagar.style.display = "block"
+    
+})
+
+
+var dadosDoToken = localStorage.getItem("id")
+document.getElementById('confirmarDadosDoForm').addEventListener('submit', function(e) {
+    e.preventDefault(); // Evita o envio do formulário
+    
+    // Captura dos valores dos campos
+    var email1 = document.querySelector('.email1').value;
+    var password1 = document.querySelector('.password1').value;
+    // ...
+  
+    // Aqui você pode fazer o que quiser com os dados capturados
+    // Por exemplo, você pode armazená-los em um objeto ou enviá-los para um servidor
+  
+    // Exibindo os dados no console
+    console.log('Email:', email1);
+    console.log('Senha:', password1);
+
+    deletarID(email1, password1, dadosDoToken)
+   
+})
+
+
+
+
+function deletarID(email, senha, token){
+    console.log(token)
+    var url = 'https://www.abibliadigital.com.br/api/users';
+  
+    var data = {
+        email: email,
+        password: senha,
+    };
+  
+    fetch(url, {
+        method: 'DELETE',
+        headers: {
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify(data)
+      })
+        .then(response => {
+          if (response.ok) {
+            console.log('Usuário excluído com sucesso');
+            // Faça algo após a exclusão bem-sucedida
+          } else {
+            throw new Error('Erro ao deletar usuário: ' + response.statusText);
+          }
+        })
+        .catch(error => {
+          console.error('Erro ao deletar usuário:', error);
+          // Faça algo em caso de erro
+        });
+}

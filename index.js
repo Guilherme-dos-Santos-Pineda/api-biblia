@@ -194,7 +194,7 @@ var loader = document.getElementById('carregador')
 
 
       var dados = token;
-
+      
       // Cria um elemento <textarea> temporário
       var textareaTemp = document.createElement("textarea");
       textareaTemp.value = dados;
